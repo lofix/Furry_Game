@@ -20,3 +20,17 @@ div {
     height: 50px;
     border: 1px solid grey;
 }
+
+.furry {
+    background-image: url("../images/furry.png");
+    -webkit-background-size: contain;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.coin {
+    background-image: url("../images/coin.png");
+    -webkit-background-size: contain;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
