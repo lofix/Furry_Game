@@ -40,8 +40,11 @@ document.addEventListener("DOMContentLoaded", function() {
         var furryPosition = calcPosition(furry.x, furry.y);
         game.board[furryPosition].classList.add("furry");
     };
-
-    //Funkcja odpowiedzialna za zmianę pozycji Furryego
+    var updateResult = function(game) {
+            var scoreboard = document.querySelector(".score");
+            scoreboard.innerHTML = game.score;
+        }
+        //Funkcja odpowiedzialna za zmianę pozycji Furryego
     var moveFurry = function(game) {
         var furryDirection = furry.direction;
         switch (furryDirection) {
@@ -87,20 +90,18 @@ document.addEventListener("DOMContentLoaded", function() {
             game.board[i].classList.remove("furry");
         }
         var furryPosition = calcPosition(furry.x, furry.y);
-        // console.log(furryPosition);
-        // var coinPosition = calcPosition(coin.x, coin.y);
         game.board[furryPosition].classList.add("furry");
         if (furry.x > 9 || furry.x < 0 || furry.y < 0 || furry.y > 9) {
             alert("GAME OVER");
         }
         if (showCoin(coin) == furryPosition) {
             game.score += 1;
-            console.log(game.score);
+
             game.board[showCoin(coin)].classList.remove("coin");
             coin = new Coin;
             game.board[showCoin(coin)].classList.add("coin");
         }
-
+        updateResult(game);
 
 
     }
