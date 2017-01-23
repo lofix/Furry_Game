@@ -23,28 +23,29 @@ document.addEventListener("DOMContentLoaded", function() {
     var coin = new Coin;
     var game = new Game;
 
-    //Funkcja obliczająca pozycję
+    //Calculate position function
     var calcPosition = function(a, b) {
         return a + b * 10;
     }
 
-    //Funkcja określająca na jakiej pozycji znajduje się moneta
+    //Function which returns coin position
     var showCoin = function(coin) {
         var coinPosition = calcPosition(coin.x, coin.y);
-        // game.board[coinPosition].classList.add("coin");
         return coinPosition;
     };
 
-    //Funkcja określająca na jakiej pozycji znajduje się fury
+    //Function which calculate furry position
     var showFurry = function(furry, game) {
         var furryPosition = calcPosition(furry.x, furry.y);
         game.board[furryPosition].classList.add("furry");
     };
+    // Function which updates scoreboard
     var updateResult = function(game) {
-            var scoreboard = document.querySelector(".score");
-            scoreboard.innerHTML = game.score;
-        }
-        //Funkcja odpowiedzialna za zmianę pozycji Furryego
+        var scoreboard = document.querySelector(".score");
+        scoreboard.innerHTML = game.score;
+    };
+
+    //Function which changes furry position
     var moveFurry = function(game) {
         var furryDirection = furry.direction;
         switch (furryDirection) {
@@ -67,7 +68,7 @@ document.addEventListener("DOMContentLoaded", function() {
     };
 
 
-    //Funkcja odpowiedzialna za sterowanie przyciskami WSAD, oraz obliczanie nowej pozycji Furryego
+
     var keyboard = function(furry, game) {
         document.onkeypress = function(event) {
             var key = event.which;
@@ -91,30 +92,43 @@ document.addEventListener("DOMContentLoaded", function() {
         }
         var furryPosition = calcPosition(furry.x, furry.y);
         game.board[furryPosition].classList.add("furry");
-        if (furry.x > 9 || furry.x < 0 || furry.y < 0 || furry.y > 9) {
-            alert("GAME OVER");
-        }
+
         if (showCoin(coin) == furryPosition) {
             game.score += 1;
-
             game.board[showCoin(coin)].classList.remove("coin");
             coin = new Coin;
             game.board[showCoin(coin)].classList.add("coin");
         }
         updateResult(game);
 
+    };
 
+    //Check if furry hit the wall
+    var check = function(furry) {
+        var instructions = document.querySelector(".instructions");
+        var board = document.querySelector("#board");
+        var end = document.querySelector(".end");
+        if (furry.x > 9 || furry.x < 0 || furry.y < 0 || furry.y > 9) {
+            instructions.style.display = "block";
+            board.style.display = "block";
+            end.style.display = "none";
+            instructions.style.display = "none";
+            board.style.display = "none";
+            end.style.display = "block";
+        }
     }
 
-    //Funkcja renderująca
+    //Render function
     var render = function(furry) {
         setInterval(function() {
+            check(furry);
             showFurry(furry, game);
             moveFurry(furry);
             keyboard(furry, game);
+
         }, 250);
     }
 
-    game.board[showCoin(coin)].classList.add("coin");
+    game.board[showCoin(coin)].classList.add("coin"); //initial coin
     render(furry);
 })
